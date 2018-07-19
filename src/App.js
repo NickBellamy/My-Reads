@@ -14,13 +14,27 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll().then(books => {
-      Object.keys(this.state).map(shelf => (
+      Object.keys(this.state).map(shelf =>
         this.setState({
           [shelf]: books.filter(book => book.shelf === shelf)
         })
-      ));
+      );
     });
   }
+
+  //TODO: Update this function to amend the state directly rather than relying on a network request.
+  //Move BooksAPI.update() to the end of this function after the state is updated.
+  moveBook = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(
+      BooksAPI.getAll().then(books => {
+        Object.keys(this.state).map(shelf =>
+          this.setState({
+            [shelf]: books.filter(book => book.shelf === shelf)
+          })
+        );
+      })
+    );
+  };
 
   render() {
     return (
@@ -28,7 +42,9 @@ class BooksApp extends React.Component {
         <Route
           exact
           path="/"
-          render={() => <RenderShelves books={this.state} moveBook={this.moveBook} />}
+          render={() => (
+            <RenderShelves books={this.state} moveBook={this.moveBook} />
+          )}
         />
         <Route path="/search" component={SearchBooks} />
       </div>
