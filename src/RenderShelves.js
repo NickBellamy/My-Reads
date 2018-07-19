@@ -39,6 +39,7 @@ class RenderShelves extends Component {
                             />
                             <div className="book-shelf-changer">
                               <select
+                                defaultValue={book.shelf}
                                 onChange={event => {
                                   this.props.moveBook(book, event.target.value);
                                 }}
@@ -47,12 +48,7 @@ class RenderShelves extends Component {
                                   Move to...
                                 </option>
                                 {Object.keys(this.props.books).map(shelf => (
-                                  <option key={shelf}
-                                    value={shelf}
-                                    selected={
-                                      book.shelf === shelf ? 'selected' : ''
-                                    }
-                                  >
+                                  <option key={shelf} value={shelf}>
                                     {this.convertToTitle(shelf)}
                                   </option>
                                 ))}
