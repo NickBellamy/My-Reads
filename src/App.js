@@ -22,18 +22,19 @@ class BooksApp extends React.Component {
     });
   }
 
-  //TODO: Update this function to amend the state directly rather than relying on a network request.
-  //Move BooksAPI.update() to the end of this function after the state is updated.
-  moveBook = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(
-      BooksAPI.getAll().then(books => {
-        Object.keys(this.state).map(shelf =>
-          this.setState({
-            [shelf]: books.filter(book => book.shelf === shelf)
-          })
-        );
-      })
+  moveBook = (book, newShelf) => {
+    let tempState = this.state;
+    const oldShelf = book.shelf;
+    const oldShelfBooks = tempState[oldShelf];
+    const updatedOldShelfBooks = oldShelfBooks.filter(
+      thisBook => thisBook.title !== book.title
     );
+    tempState[oldShelf] = updatedOldShelfBooks;
+    book.shelf = newShelf;
+    tempState[newShelf].push(book);
+    this.setState(tempState);
+
+    BooksAPI.update(book, newShelf);
   };
 
   render() {
