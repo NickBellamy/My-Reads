@@ -17,7 +17,7 @@ class RenderShelves extends Component {
         <div className="list-books-content">
           <div>
             {Object.keys(this.props.books).map(shelf => (
-              <div className="bookshelf">
+              <div className="bookshelf" key={shelf}>
                 <h2 className="bookshelf-title">
                   {this.convertToTitle(shelf)}
                 </h2>
