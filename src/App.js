@@ -14,11 +14,11 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll().then(books => {
-      Object.keys(this.state).map(shelf => {
+      Object.keys(this.state).map(shelf => (
         this.setState({
           [shelf]: books.filter(book => book.shelf === shelf)
-        });
-      });
+        })
+      ));
     });
   }
 
