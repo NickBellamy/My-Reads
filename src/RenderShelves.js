@@ -3,11 +3,6 @@ import { Link } from 'react-router-dom';
 
 class RenderShelves extends Component {
   render() {
-    const currentlyReading = this.props.books.filter(book => book.shelf === 'currentlyReading');
-    const wantToRead = this.props.books.filter(book => book.shelf === 'wantToRead');
-    const read = this.props.books.filter(book => book.shelf === 'read');
-    console.log(read[0]);   
-
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -19,7 +14,7 @@ class RenderShelves extends Component {
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                  {currentlyReading.map(book => (
+                  {this.props.books.currentlyReading.map(book => (
                     <li key={book.title}>
                     <div className="book">
                       <div className="book-top">
@@ -58,7 +53,7 @@ class RenderShelves extends Component {
               <h2 className="bookshelf-title">Want to Read</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                {wantToRead.map(book => (
+                {this.props.books.wantToRead.map(book => (
                     <li key={book.title}>
                     <div className="book">
                       <div className="book-top">
@@ -97,7 +92,7 @@ class RenderShelves extends Component {
               <h2 className="bookshelf-title">Read</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                {read.map(book => (
+                {this.props.books.read.map(book => (
                     <li key={book.title}>
                     <div className="book">
                       <div className="book-top">
