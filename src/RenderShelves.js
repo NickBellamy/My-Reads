@@ -47,7 +47,7 @@ class RenderShelves extends Component {
                                   Move to...
                                 </option>
                                 {Object.keys(this.props.books).map(shelf => (
-                                  <option
+                                  <option key={shelf}
                                     value={shelf}
                                     selected={
                                       book.shelf === shelf ? 'selected' : ''
