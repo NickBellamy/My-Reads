@@ -22,6 +22,7 @@ class BooksApp extends React.Component {
     });
   }
 
+  //TODO: Refactor this code as it's quite messy!
   moveBook = (book, newShelf) => {
     let tempState = this.state;
     const oldShelf = book.shelf;
@@ -30,8 +31,10 @@ class BooksApp extends React.Component {
       thisBook => thisBook.title !== book.title
     );
     tempState[oldShelf] = updatedOldShelfBooks;
-    book.shelf = newShelf;
-    tempState[newShelf].push(book);
+    if (newShelf !== 'none') {
+        book.shelf = newShelf;
+        tempState[newShelf].push(book);
+    }
     this.setState(tempState);
 
     BooksAPI.update(book, newShelf);
