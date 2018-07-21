@@ -23,7 +23,7 @@ class SearchPage extends React.Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {this.state.searchResults.map(book => (
-              <li key={book.title}>
+              <li key={book.industryIdentifiers[0].identifier}>
                 <div className="book">
                   <div className="book-top">
                     <div
