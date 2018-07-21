@@ -40,7 +40,7 @@ class SearchBar extends React.Component {
 
   updateQuery = query => {
     this.setState(
-      { query: query.trim() },
+      { query: query },
       this.props.updateSearchResults(query)
     );
   };
