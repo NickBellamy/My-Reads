@@ -25,12 +25,16 @@ class BooksApp extends React.Component {
   //TODO: Refactor this code as it's quite messy!
   moveBook = (book, newShelf) => {
     let tempState = this.state;
-    const oldShelf = book.shelf;
-    const oldShelfBooks = tempState[oldShelf];
-    const updatedOldShelfBooks = oldShelfBooks.filter(
-      thisBook => thisBook.title !== book.title
-    );
-    tempState[oldShelf] = updatedOldShelfBooks;
+    //If book is already on a shelf
+    if(book.shelf) {
+        const oldShelf = book.shelf;
+        const oldShelfBooks = tempState[oldShelf];
+        const updatedOldShelfBooks = oldShelfBooks.filter(
+          thisBook => thisBook.title !== book.title
+        );
+        tempState[oldShelf] = updatedOldShelfBooks;
+    }
+    //If shelf to move to is pre-exisiting shelf
     if (newShelf !== 'none') {
         book.shelf = newShelf;
         tempState[newShelf].push(book);

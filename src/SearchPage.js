@@ -19,6 +19,7 @@ class SearchPage extends React.Component {
     return (
       <div className="search-books">
         <SearchBar updateSearchResults={this.updateSearchResults} />
+        {/*TODO: Integrate this code into the code on RenderShelves?*/}
         <div className="search-books-results">
           <ol className="books-grid">
             {this.state.searchResults.map(book => (
@@ -47,7 +48,7 @@ class SearchPage extends React.Component {
                         </option>
                         {this.props.shelves.map(shelf => (
                           <option key={shelf} value={shelf}>
-                            {shelf}
+                            {shelf} {/*TODO: Make this human readable*/}
                           </option>
                         ))}
                         <option value="none">None</option>
