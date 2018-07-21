@@ -13,7 +13,8 @@ class BookList extends React.Component {
                   style={{
                     width: 128,
                     height: 193,
-                    backgroundImage: `url("${book.imageLinks.smallThumbnail}")`
+                    //TODO: Add "No image available"
+                    backgroundImage: `url("${book.imageLinks ? book.imageLinks.smallThumbnail : ''}")`
                   }}
                 />
                 <div className="book-shelf-changer">
@@ -36,7 +37,7 @@ class BookList extends React.Component {
                 </div>
               </div>
               <div className="book-title">{book.title}</div>
-              <div className="book-authors">{book.authors}</div>
+              <div className="book-authors">{book.authors ? book.authors : 'Unknown Author'}</div>
             </div>
           </li>
         ))}
