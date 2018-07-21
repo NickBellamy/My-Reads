@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import BookList from './BookList';
 
 class RenderShelves extends Component {
   // Takes a string in camelCase and returns a human readable capitalised title
@@ -22,46 +23,11 @@ class RenderShelves extends Component {
                   {this.convertToTitle(shelf)}
                 </h2>
                 <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {this.props.books[shelf].map(book => (
-                      <li key={book.title}>
-                        <div className="book">
-                          <div className="book-top">
-                            <div
-                              className="book-cover"
-                              style={{
-                                width: 128,
-                                height: 193,
-                                backgroundImage: `url("${
-                                  book.imageLinks.smallThumbnail
-                                }")`
-                              }}
-                            />
-                            <div className="book-shelf-changer">
-                              <select
-                                defaultValue={book.shelf}
-                                onChange={event => {
-                                  this.props.moveBook(book, event.target.value);
-                                }}
-                              >
-                                <option value="move" disabled>
-                                  Move to...
-                                </option>
-                                {Object.keys(this.props.books).map(shelf => (
-                                  <option key={shelf} value={shelf}>
-                                    {this.convertToTitle(shelf)}
-                                  </option>
-                                ))}
-                                <option value="none">None</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
+                  <BookList
+                    books={this.props.books[shelf]}
+                    shelves={Object.keys(this.props.books)}
+                    moveBook={this.props.moveBook}
+                  />
                 </div>
               </div>
             ))}

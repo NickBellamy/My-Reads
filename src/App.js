@@ -26,18 +26,18 @@ class BooksApp extends React.Component {
   moveBook = (book, newShelf) => {
     let tempState = this.state;
     //If book is already on a shelf
-    if(book.shelf) {
-        const oldShelf = book.shelf;
-        const oldShelfBooks = tempState[oldShelf];
-        const updatedOldShelfBooks = oldShelfBooks.filter(
-          thisBook => thisBook.title !== book.title
-        );
-        tempState[oldShelf] = updatedOldShelfBooks;
+    if (book.shelf) {
+      const oldShelf = book.shelf;
+      const oldShelfBooks = tempState[oldShelf];
+      const updatedOldShelfBooks = oldShelfBooks.filter(
+        thisBook => thisBook.title !== book.title
+      );
+      tempState[oldShelf] = updatedOldShelfBooks;
     }
     //If shelf to move to is pre-exisiting shelf
     if (newShelf !== 'none') {
-        book.shelf = newShelf;
-        tempState[newShelf].push(book);
+      book.shelf = newShelf;
+      tempState[newShelf].push(book);
     }
     this.setState(tempState);
 
@@ -54,9 +54,15 @@ class BooksApp extends React.Component {
             <RenderShelves books={this.state} moveBook={this.moveBook} />
           )}
         />
-        <Route path="/search" render={() => (
-            <SearchPage shelves={Object.keys(this.state)} moveBook={this.moveBook} />
-          )} />
+        <Route
+          path="/search"
+          render={() => (
+            <SearchPage
+              shelves={Object.keys(this.state)}
+              moveBook={this.moveBook}
+            />
+          )}
+        />
       </div>
     );
   }
