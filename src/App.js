@@ -2,7 +2,7 @@ import React from 'react';
 import * as BooksAPI from './BooksAPI';
 import { Route } from 'react-router-dom';
 import RenderShelves from './RenderShelves';
-import SearchBooks from './SearchBooks';
+import SearchPage from './SearchPage';
 import './App.css';
 
 class BooksApp extends React.Component {
@@ -50,7 +50,7 @@ class BooksApp extends React.Component {
             <RenderShelves books={this.state} moveBook={this.moveBook} />
           )}
         />
-        <Route path="/search" component={SearchBooks} />
+        <Route path="/search" component={SearchPage} />
       </div>
     );
   }
