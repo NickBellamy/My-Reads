@@ -6,7 +6,7 @@ class SearchPage extends React.Component {
   state = {
     searchResults: []
   };
-  
+
   updateSearchResults = query => {
     search(query).then(results => {
       this.setState({
@@ -14,7 +14,7 @@ class SearchPage extends React.Component {
       });
     });
   };
-  
+
   render() {
     return (
       <div className="search-books">
@@ -22,7 +22,42 @@ class SearchPage extends React.Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {this.state.searchResults.map(book => (
-              <li key={book.industryIdentifiers[0].identifier}>{book.title}</li>
+              <li key={book.title}>
+                <div className="book">
+                  <div className="book-top">
+                    <div
+                      className="book-cover"
+                      style={{
+                        width: 128,
+                        height: 193,
+                        backgroundImage: `url("${
+                          book.imageLinks.smallThumbnail
+                        }")`
+                      }}
+                    />
+                    <div className="book-shelf-changer">
+                      <select
+                        defaultValue={book.shelf}
+                        onChange={event => {
+                          this.props.moveBook(book, event.target.value);
+                        }}
+                      >
+                        <option value="move" disabled>
+                          Move to...
+                        </option>
+                        {this.props.shelves.map(shelf => (
+                          <option key={shelf} value={shelf}>
+                            {shelf}
+                          </option>
+                        ))}
+                        <option value="none">None</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="book-title">{book.title}</div>
+                  <div className="book-authors">{book.authors}</div>
+                </div>
+              </li>
             ))}
           </ol>
         </div>
