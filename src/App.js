@@ -51,7 +51,7 @@ class BooksApp extends React.Component {
           exact
           path="/"
           render={() => (
-            <RenderShelves books={this.state} moveBook={this.moveBook} convertShelfName={this.convertShelfName}/>
+            <RenderShelves books={this.state} moveBook={this.moveBook} />
           )}
         />
         <Route

@@ -1,16 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { search } from './BooksAPI';
 import BookList from './BookList';
 
 class SearchPage extends React.Component {
+  static propTypes = {
+    books: PropTypes.object.isRequired,
+    moveBook: PropTypes.func.isRequired
+  };
+
   state = {
     searchResults: []
   };
 
   updateSearchResults = query => {
     search(query).then(results => {
-        //TODO: Look at using results.error to show in UI if no results found
+      //TODO: Look at using results.error to show in UI if no results found
       if (!results || results.error) {
         this.setState({ searchResults: [] });
       } else {
@@ -36,8 +42,8 @@ class SearchPage extends React.Component {
           }
           return book;
         });
-        
-        this.setState({searchResults: results});
+
+        this.setState({ searchResults: results });
       }
     });
   };
@@ -72,6 +78,10 @@ class SearchPage extends React.Component {
 }
 
 class SearchBar extends React.Component {
+  static propTypes = {
+    updateSearchResults: PropTypes.func.isRequired
+  };
+
   state = {
     query: ''
   };

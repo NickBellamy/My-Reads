@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import BookList from './BookList';
 import { convertFromCamel } from './helpers';
 
 class RenderShelves extends Component {
+  static propTypes = {
+    books: PropTypes.object.isRequired,
+    moveBook: PropTypes.func.isRequired
+  };
+
   render() {
     return (
       <div className="list-books">
@@ -14,9 +20,7 @@ class RenderShelves extends Component {
           <div>
             {Object.keys(this.props.books).map(shelf => (
               <div className="bookshelf" key={shelf}>
-                <h2 className="bookshelf-title">
-                  {convertFromCamel(shelf)}
-                </h2>
+                <h2 className="bookshelf-title">{convertFromCamel(shelf)}</h2>
                 <div className="bookshelf-books">
                   <BookList
                     books={this.props.books[shelf]}

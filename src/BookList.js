@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { convertFromCamel } from './helpers';
 
 class BookList extends React.Component {
+static propTypes = {
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    moveBook: PropTypes.func.isRequired
+}
   render() {
     return (
       <ol className="books-grid">
