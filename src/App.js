@@ -12,15 +12,16 @@ class BooksApp extends React.Component {
     read: []
   };
 
-  //TODO: This makes 3 state updates - does that matter?
   componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      Object.keys(this.state).map(shelf =>
-        this.setState({
-          [shelf]: books.filter(book => book.shelf === shelf)
-        })
-      );
-    });
+    let tempState = this.state;
+    BooksAPI.getAll()
+      .then(books => {
+        Object.keys(this.state).map(
+          shelf =>
+            (tempState[shelf] = books.filter(book => book.shelf === shelf))
+        );
+      })
+      .then(() => this.setState(tempState));
   }
 
   moveBook = (book, newShelf) => {
