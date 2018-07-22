@@ -23,19 +23,19 @@ class SearchPage extends React.Component {
       } else {
         results.map(book => {
           if (
-            this.allBooks.currentlyReading.includes(
+            this.bookIds.currentlyReading.includes(
               book.industryIdentifiers[0].identifier
             )
           ) {
             book.shelf = 'currentlyReading';
           } else if (
-            this.allBooks.wantToRead.includes(
+            this.bookIds.wantToRead.includes(
               book.industryIdentifiers[0].identifier
             )
           ) {
             book.shelf = 'wantToRead';
           } else if (
-            this.allBooks.read.includes(book.industryIdentifiers[0].identifier)
+            this.bookIds.read.includes(book.industryIdentifiers[0].identifier)
           ) {
             book.shelf = 'read';
           } else {
@@ -49,17 +49,18 @@ class SearchPage extends React.Component {
     });
   };
 
-  //TODO: Refactor
-  allBooks = {
-    currentlyReading: this.props.books.currentlyReading.map(
-      book => book.industryIdentifiers[0].identifier
-    ),
-    wantToRead: this.props.books.wantToRead.map(
-      book => book.industryIdentifiers[0].identifier
-    ),
-    read: this.props.books.read.map(
-      book => book.industryIdentifiers[0].identifier
-    )
+  componentDidMount() {
+    Object.keys(this.props.books).map(shelf => {
+      this.bookIds[shelf] = this.props.books[shelf]
+        .filter(book => book.shelf === shelf)
+        .map(book => book.industryIdentifiers[0].identifier);
+    });
+  }
+
+  bookIds = {
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
   };
 
   render() {
