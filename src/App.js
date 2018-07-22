@@ -12,6 +12,7 @@ class BooksApp extends React.Component {
     read: []
   };
 
+  //TODO: This makes 3 state updates - does that matter?
   componentDidMount() {
     BooksAPI.getAll().then(books => {
       Object.keys(this.state).map(shelf =>
@@ -22,19 +23,15 @@ class BooksApp extends React.Component {
     });
   }
 
-  //TODO: Refactor this code as it's quite messy!
   moveBook = (book, newShelf) => {
     let tempState = this.state;
-    //If book is already on a shelf
+    //If book is already on a shelf, remove it from this shelf
     if (book.shelf !== 'none') {
-      const oldShelf = book.shelf;
-      const oldShelfBooks = tempState[oldShelf];
-      const updatedOldShelfBooks = oldShelfBooks.filter(
+      tempState[book.shelf] = tempState[book.shelf].filter(
         thisBook => thisBook.title !== book.title
       );
-      tempState[oldShelf] = updatedOldShelfBooks;
     }
-    //If shelf to move to is pre-exisiting shelf
+    //Add book to new shelf if it's not 'none'
     if (newShelf !== 'none') {
       book.shelf = newShelf;
       tempState[newShelf].push(book);

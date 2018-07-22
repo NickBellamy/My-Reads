@@ -14,6 +14,7 @@ class SearchPage extends React.Component {
     searchResults: []
   };
 
+  //TODO: Refactor
   updateSearchResults = query => {
     search(query).then(results => {
       //TODO: Look at using results.error to show in UI if no results found
@@ -48,7 +49,7 @@ class SearchPage extends React.Component {
     });
   };
 
-  //TODO Return books with these results, rather than from the "fetch" request
+  //TODO: Refactor
   allBooks = {
     currentlyReading: this.props.books.currentlyReading.map(
       book => book.industryIdentifiers[0].identifier
