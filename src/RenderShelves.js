@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BookList from './BookList';
+import { convertFromCamel } from './helpers';
 
 class RenderShelves extends Component {
-  //Takes a string in camelCase and returns a human readable capitalised title
-  //TODO: This is not currently used 
-  convertToTitle = camelCase => {
-    let title = camelCase.replace(/([A-Z])/g, ' $1');
-    return title[0].toUpperCase() + title.slice(1);
-  };
-
   render() {
     return (
       <div className="list-books">
@@ -21,7 +15,7 @@ class RenderShelves extends Component {
             {Object.keys(this.props.books).map(shelf => (
               <div className="bookshelf" key={shelf}>
                 <h2 className="bookshelf-title">
-                  {this.convertToTitle(shelf)}
+                  {convertFromCamel(shelf)}
                 </h2>
                 <div className="bookshelf-books">
                   <BookList

@@ -1,4 +1,5 @@
 import React from 'react';
+import { convertFromCamel } from './helpers';
 
 class BookList extends React.Component {
   render() {
@@ -29,7 +30,7 @@ class BookList extends React.Component {
                     </option>
                     {this.props.shelves.map(shelf => (
                       <option key={shelf} value={shelf}>
-                        {shelf} {/*TODO: Make this human readable*/}
+                        {convertFromCamel(shelf)}
                       </option>
                     ))}
                     <option value="none">None</option>
