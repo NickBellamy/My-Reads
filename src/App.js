@@ -26,7 +26,7 @@ class BooksApp extends React.Component {
   moveBook = (book, newShelf) => {
     let tempState = this.state;
     //If book is already on a shelf
-    if (book.shelf != 'none') {
+    if (book.shelf !== 'none') {
       const oldShelf = book.shelf;
       const oldShelfBooks = tempState[oldShelf];
       const updatedOldShelfBooks = oldShelfBooks.filter(
