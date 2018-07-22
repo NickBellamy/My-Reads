@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import BookList from './BookList';
 
 class RenderShelves extends Component {
-  // Takes a string in camelCase and returns a human readable capitalised title
+  //Takes a string in camelCase and returns a human readable capitalised title
+  //TODO: This is not currently used 
   convertToTitle = camelCase => {
     let title = camelCase.replace(/([A-Z])/g, ' $1');
     return title[0].toUpperCase() + title.slice(1);

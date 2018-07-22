@@ -10,11 +10,36 @@ class SearchPage extends React.Component {
 
   updateSearchResults = query => {
     search(query).then(results => {
+        results.map(book => {
+            if(this.allBooks.currentlyReading.includes(book.industryIdentifiers[0].identifier)) {
+                book.shelf = 'currentlyReading'
+            } else if (this.allBooks.wantToRead.includes(book.industryIdentifiers[0].identifier)) {
+                book.shelf = 'wantToRead'
+            } else if (this.allBooks.read.includes(book.industryIdentifiers[0].identifier)) {
+                book.shelf = 'read'
+            } else {
+                book.shelf='none'
+            }
+            return book;
+        })
       this.setState({
         //TODO: Look at using results.error to show in UI if no results foundsss
         searchResults: !results || results.error ? [] : results
       });
     });
+  };
+
+  //TODO Return books with these results, rather than from the "fetch" request
+  allBooks = {
+    currentlyReading: this.props.books.currentlyReading.map(
+      book => book.industryIdentifiers[0].identifier
+    ),
+    wantToRead: this.props.books.wantToRead.map(
+      book => book.industryIdentifiers[0].identifier
+    ),
+    read: this.props.books.read.map(
+      book => book.industryIdentifiers[0].identifier
+    )
   };
 
   render() {
@@ -24,7 +49,7 @@ class SearchPage extends React.Component {
         <div className="search-books-results">
           <BookList
             books={this.state.searchResults}
-            shelves={this.props.shelves}
+            shelves={Object.keys(this.props.books)}
             moveBook={this.props.moveBook}
           />
         </div>
@@ -39,10 +64,7 @@ class SearchBar extends React.Component {
   };
 
   updateQuery = query => {
-    this.setState(
-      { query: query },
-      this.props.updateSearchResults(query)
-    );
+    this.setState({ query: query }, this.props.updateSearchResults(query));
   };
 
   render() {
