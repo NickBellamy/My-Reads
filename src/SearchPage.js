@@ -10,22 +10,35 @@ class SearchPage extends React.Component {
 
   updateSearchResults = query => {
     search(query).then(results => {
+        //TODO: Look at using results.error to show in UI if no results found
+      if (!results || results.error) {
+        this.setState({ searchResults: [] });
+      } else {
         results.map(book => {
-            if(this.allBooks.currentlyReading.includes(book.industryIdentifiers[0].identifier)) {
-                book.shelf = 'currentlyReading'
-            } else if (this.allBooks.wantToRead.includes(book.industryIdentifiers[0].identifier)) {
-                book.shelf = 'wantToRead'
-            } else if (this.allBooks.read.includes(book.industryIdentifiers[0].identifier)) {
-                book.shelf = 'read'
-            } else {
-                book.shelf='none'
-            }
-            return book;
-        })
-      this.setState({
-        //TODO: Look at using results.error to show in UI if no results foundsss
-        searchResults: !results || results.error ? [] : results
-      });
+          if (
+            this.allBooks.currentlyReading.includes(
+              book.industryIdentifiers[0].identifier
+            )
+          ) {
+            book.shelf = 'currentlyReading';
+          } else if (
+            this.allBooks.wantToRead.includes(
+              book.industryIdentifiers[0].identifier
+            )
+          ) {
+            book.shelf = 'wantToRead';
+          } else if (
+            this.allBooks.read.includes(book.industryIdentifiers[0].identifier)
+          ) {
+            book.shelf = 'read';
+          } else {
+            book.shelf = 'none';
+          }
+          return book;
+        });
+        
+        this.setState({searchResults: results});
+      }
     });
   };
 
