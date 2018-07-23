@@ -16,6 +16,15 @@ class SearchPage extends React.Component {
 
   //TODO: Refactor
   updateSearchResults = query => {
+    let bookIds = {};
+
+    Object.keys(this.props.books).map(
+      shelf =>
+        (bookIds[shelf] = this.props.books[shelf]
+          .filter(book => book.shelf === shelf)
+          .map(book => book.industryIdentifiers[0].identifier))
+    );
+
     search(query).then(results => {
       //TODO: Look at using results.error to show in UI if no results found
       if (!results || results.error) {
@@ -23,19 +32,17 @@ class SearchPage extends React.Component {
       } else {
         results.map(book => {
           if (
-            this.bookIds.currentlyReading.includes(
+            bookIds.currentlyReading.includes(
               book.industryIdentifiers[0].identifier
             )
           ) {
             book.shelf = 'currentlyReading';
           } else if (
-            this.bookIds.wantToRead.includes(
-              book.industryIdentifiers[0].identifier
-            )
+            bookIds.wantToRead.includes(book.industryIdentifiers[0].identifier)
           ) {
             book.shelf = 'wantToRead';
           } else if (
-            this.bookIds.read.includes(book.industryIdentifiers[0].identifier)
+            bookIds.read.includes(book.industryIdentifiers[0].identifier)
           ) {
             book.shelf = 'read';
           } else {
@@ -49,23 +56,10 @@ class SearchPage extends React.Component {
     });
   };
 
-  componentWillReceiveProps() {
-    Object.keys(this.props.books).map(shelf => (
-      this.bookIds[shelf] = this.props.books[shelf]
-        .filter(book => book.shelf === shelf)
-        .map(book => book.industryIdentifiers[0].identifier)
-    ));
-  }
-
-  bookIds = {
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
-  };
-
   render() {
     return (
       <div className="search-books">
+        {console.log(`render called`)}
         <SearchBar updateSearchResults={this.updateSearchResults} />
         <div className="search-books-results">
           <BookList
