@@ -16,6 +16,7 @@ class SearchPage extends React.Component {
 
   //TODO: Refactor
   updateSearchResults = query => {
+    console.log(`updateSearchResults called`);
     search(query).then(results => {
       //TODO: Look at using results.error to show in UI if no results found
       if (!results || results.error) {
@@ -49,12 +50,17 @@ class SearchPage extends React.Component {
     });
   };
 
-  componentWillReceiveProps() {
-    Object.keys(this.props.books).map(shelf => (
-      this.bookIds[shelf] = this.props.books[shelf]
-        .filter(book => book.shelf === shelf)
-        .map(book => book.industryIdentifiers[0].identifier)
-    ));
+  componentDidMount() {
+    console.log(`The current value of this.props.books is...`)
+    console.log(this.props.books);
+    console.log(`But when I try to access the this.books.props.read propery, the array is blank...`)
+    console.log(this.props.books.read);
+    Object.keys(this.props.books).map(
+      shelf =>
+        (this.bookIds[shelf] = this.props.books[shelf]
+          .filter(book => book.shelf === shelf)
+          .map(book => book.industryIdentifiers[0].identifier))
+    );
   }
 
   bookIds = {
