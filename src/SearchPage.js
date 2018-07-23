@@ -59,7 +59,6 @@ class SearchPage extends React.Component {
   render() {
     return (
       <div className="search-books">
-        {console.log(`render called`)}
         <SearchBar updateSearchResults={this.updateSearchResults} />
         <div className="search-books-results">
           <BookList
