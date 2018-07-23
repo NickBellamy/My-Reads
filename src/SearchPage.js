@@ -49,7 +49,7 @@ class SearchPage extends React.Component {
     });
   };
 
-  componentDidMount() {
+  componentWillReceiveProps() {
     Object.keys(this.props.books).map(shelf => (
       this.bookIds[shelf] = this.props.books[shelf]
         .filter(book => book.shelf === shelf)
