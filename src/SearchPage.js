@@ -50,11 +50,11 @@ class SearchPage extends React.Component {
   };
 
   componentDidMount() {
-    Object.keys(this.props.books).map(shelf => {
+    Object.keys(this.props.books).map(shelf => (
       this.bookIds[shelf] = this.props.books[shelf]
         .filter(book => book.shelf === shelf)
-        .map(book => book.industryIdentifiers[0].identifier);
-    });
+        .map(book => book.industryIdentifiers[0].identifier)
+    ));
   }
 
   bookIds = {
