@@ -12,13 +12,17 @@ class SearchPage extends React.Component {
 
   state = {
     currentSearchQuery: '',
-    searchResults: []
+    searchResults: [],
+    isLoading: false
   };
 
   //Update currentSearchQuery and try to update the UI with book results
   updateSearchResults = query => {
     this.setState(
-      { currentSearchQuery: query },
+      {
+        currentSearchQuery: query,
+        isLoading: true
+      },
       this.attempResultUpdate(query)
     );
   };
@@ -43,7 +47,7 @@ class SearchPage extends React.Component {
     //Books returned reflect their currently assigned shelf
     search(query).then(results => {
       if (!results || results.error) {
-        this.setState({ searchResults: [] });
+        this.setState({ searchResults: [], isLoading: false });
       } else {
         //Map a shelf value onto each book in results
         results.map(book => {
@@ -62,7 +66,7 @@ class SearchPage extends React.Component {
         //Check to ensure query matches state's currentSearchQuery
         //If false, a new query has been entered and state shouldn't be updated
         if (this.state.currentSearchQuery === query) {
-          this.setState({ searchResults: results });
+          this.setState({ searchResults: results, isLoading: false });
         }
       }
     });
@@ -77,6 +81,7 @@ class SearchPage extends React.Component {
         />
         <div className="search-books-results">
           <BookList
+            isLoading={this.state.isLoading}
             books={this.state.searchResults}
             shelves={Object.keys(this.props.books)}
             moveBook={this.props.moveBook}
