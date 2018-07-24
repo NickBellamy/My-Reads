@@ -30,15 +30,15 @@ React was used to build this app, using a combination of HTML, CSS, JavaScript a
 
 ## Installation
 
-###NPM
+### NPM
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
-###Yarn
+### Yarn
 * install all project dependencies with `yarn install`
 * start the development server with `yarn start`
 
-##Adding and removing shelves
+## Adding and removing shelves
 
 The code generates all the shelves from a single point in the `App.js` file.  This means that by altering the `state.books` property in the `App` class gives you the ability to extend the number of shelves past the 3 default shelves.  When adding new shelves, ensure you name them using camel casing to ensure that the new shelf name renders correctly throughout the app.
 
