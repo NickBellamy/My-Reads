@@ -37,13 +37,16 @@ class SearchPage extends React.Component {
       } else {
         //Map a shelf value onto each book in results
         results.map(book => {
-          book.shelf = 'none'; //Default value - overwritten if match found
           //For every shelf...
-          bookShelves.map(
-            shelf =>
-              //...if this shelf contains book's Id, set book's shelf to shelf
-              bookIds[shelf].includes(bookId(book)) && (book.shelf = shelf)
-          );
+          for (let i = 0; i < bookShelves.length; i++) {
+            //...if this shelf contains book's Id, set book's shelf to this shelf
+            if (bookIds[bookShelves[i]].includes(bookId(book))) {
+              book.shelf = bookShelves[i];
+              break; //Stop searching for a match
+            }
+          }
+          //If book is not currentky on a shelf, set shelf to "none"
+          !book.shelf && (book.shelf = 'none');
           return book;
         });
 
