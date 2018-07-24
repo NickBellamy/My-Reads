@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { search } from './BooksAPI';
 import BookList from './BookList';
-import { resolve } from '../node_modules/uri-js';
 
 class SearchPage extends React.Component {
   static propTypes = {
@@ -72,7 +71,10 @@ class SearchPage extends React.Component {
   render() {
     return (
       <div className="search-books">
-        <SearchBar updateSearchResults={this.updateSearchResults} />
+        <SearchBar
+          updateSearchResults={this.updateSearchResults}
+          currentQuery={this.state.currentSearchQuery}
+        />
         <div className="search-books-results">
           <BookList
             books={this.state.searchResults}
@@ -85,30 +87,27 @@ class SearchPage extends React.Component {
   }
 }
 
-class SearchBar extends React.Component {
-  static propTypes = {
-    updateSearchResults: PropTypes.func.isRequired
-  };
+const SearchBar = ({ updateSearchResults, currentQuery }) => (
+  <div className="search-books-bar">
+    <Link to="/" className="close-search">
+      Close
+    </Link>
+    <div className="search-books-input-wrapper">
+      <input
+        type="text"
+        placeholder="Search by title or author"
+        value={currentQuery}
+        onChange={event => {
+          updateSearchResults(event.target.value);
+        }}
+      />
+    </div>
+  </div>
+);
 
-  render() {
-    return (
-      <div className="search-books-bar">
-        <Link to="/" className="close-search">
-          Close
-        </Link>
-        <div className="search-books-input-wrapper">
-          <input
-            type="text"
-            placeholder="Search by title or author"
-            value={this.props.currentQuery}
-            onChange={event => {
-              this.props.updateSearchResults(event.target.value);
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
-}
+SearchBar.propTypes = {
+  updateSearchResults: PropTypes.func.isRequired,
+  currentQuery: PropTypes.string.isRequired
+};
 
 export default SearchPage;
