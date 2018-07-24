@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { search } from './BooksAPI';
 import BookList from './BookList';
+import { resolve } from '../node_modules/uri-js';
 
 class SearchPage extends React.Component {
   static propTypes = {
@@ -11,10 +12,20 @@ class SearchPage extends React.Component {
   };
 
   state = {
+    currentSearchQuery: '',
     searchResults: []
   };
 
+  //Update currentSearchQuery and try to update the UI with book results
   updateSearchResults = query => {
+    this.setState(
+      { currentSearchQuery: query },
+      this.attempResultUpdate(query)
+    );
+  };
+
+  //Update searchResults if no new query was set while processing request
+  attempResultUpdate = query => {
     let bookIds = {};
     const bookShelves = Object.keys(this.props.books);
     const bookId = book => book.industryIdentifiers[0].identifier;
@@ -45,12 +56,15 @@ class SearchPage extends React.Component {
               break; //Stop searching for a match
             }
           }
-          //If book is not currentky on a shelf, set shelf to "none"
+          //If book is not currenty on a shelf, set shelf to "none"
           !book.shelf && (book.shelf = 'none');
           return book;
         });
-
-        this.setState({ searchResults: results });
+        //Check to ensure query matches state's currentSearchQuery
+        //If false, a new query has been entered and state shouldn't be updated
+        if (this.state.currentSearchQuery === query) {
+          this.setState({ searchResults: results });
+        }
       }
     });
   };
@@ -76,14 +90,6 @@ class SearchBar extends React.Component {
     updateSearchResults: PropTypes.func.isRequired
   };
 
-  state = {
-    query: ''
-  };
-
-  updateQuery = query => {
-    this.setState({ query: query }, this.props.updateSearchResults(query));
-  };
-
   render() {
     return (
       <div className="search-books-bar">
@@ -94,9 +100,9 @@ class SearchBar extends React.Component {
           <input
             type="text"
             placeholder="Search by title or author"
-            value={this.state.query}
+            value={this.props.currentQuery}
             onChange={event => {
-              this.updateQuery(event.target.value);
+              this.props.updateSearchResults(event.target.value);
             }}
           />
         </div>
