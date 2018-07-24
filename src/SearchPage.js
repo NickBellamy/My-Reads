@@ -17,8 +17,9 @@ class SearchPage extends React.Component {
   //TODO: Refactor
   updateSearchResults = query => {
     let bookIds = {};
+    let bookShelves = Object.keys(this.props.books);
 
-    Object.keys(this.props.books).map(
+    bookShelves.map(
       shelf =>
         (bookIds[shelf] = this.props.books[shelf]
           .filter(book => book.shelf === shelf)
@@ -31,23 +32,17 @@ class SearchPage extends React.Component {
         this.setState({ searchResults: [] });
       } else {
         results.map(book => {
-          if (
-            bookIds.currentlyReading.includes(
-              book.industryIdentifiers[0].identifier
-            )
-          ) {
-            book.shelf = 'currentlyReading';
-          } else if (
-            bookIds.wantToRead.includes(book.industryIdentifiers[0].identifier)
-          ) {
-            book.shelf = 'wantToRead';
-          } else if (
-            bookIds.read.includes(book.industryIdentifiers[0].identifier)
-          ) {
-            book.shelf = 'read';
-          } else {
-            book.shelf = 'none';
+          book.shelf = 'none';
+          for (let i = 0; i < bookShelves.length; i++) {
+            if (
+              bookIds[bookShelves[i]].includes(
+                book.industryIdentifiers[0].identifier
+              )
+            ) {
+              book.shelf = bookShelves[i];
+            }
           }
+
           return book;
         });
 
