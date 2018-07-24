@@ -14,6 +14,8 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     let tempState = this.state;
+
+    //Fetch book assigned to a shelf and add them to the state
     BooksAPI.getAll()
       .then(books => {
         Object.keys(this.state).map(
@@ -39,6 +41,7 @@ class BooksApp extends React.Component {
     }
     this.setState(tempState);
 
+    //Update the book shelf on the back end
     BooksAPI.update(book, newShelf);
   };
 

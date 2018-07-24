@@ -39,7 +39,7 @@ class SearchPage extends React.Component {
           .map(book => bookId(book)))
     );
 
-    //Update state with list of books returned from query
+    //Attempt to update state with list of books returned from query
     //Books returned reflect their currently assigned shelf
     search(query).then(results => {
       if (!results || results.error) {
