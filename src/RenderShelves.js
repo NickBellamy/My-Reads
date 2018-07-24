@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import BookList from './BookList';
 import { convertFromCamel } from './helpers';
 
-const RenderShelves = ({ books, moveBook }) => (
+const RenderShelves = ({ isLoading, books, moveBook }) => (
   <div className="list-books">
     <div className="list-books-title">
       <h1>MyReads</h1>
@@ -16,6 +16,7 @@ const RenderShelves = ({ books, moveBook }) => (
             <h2 className="bookshelf-title">{convertFromCamel(shelf)}</h2>
             <div className="bookshelf-books">
               <BookList
+                isLoading={isLoading}
                 books={books[shelf]}
                 shelves={Object.keys(books)}
                 moveBook={moveBook}
@@ -32,6 +33,7 @@ const RenderShelves = ({ books, moveBook }) => (
 );
 
 RenderShelves.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   books: PropTypes.object.isRequired,
   moveBook: PropTypes.func.isRequired
 };

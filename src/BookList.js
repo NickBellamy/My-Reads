@@ -16,7 +16,6 @@ const BookList = ({ books, shelves, moveBook, isLoading }) => {
                 style={{
                   width: 128,
                   height: 193,
-                  //TODO: Add "No image available"
                   backgroundImage: `url("${
                     book.imageLinks ? book.imageLinks.smallThumbnail : ''
                   }")`
@@ -53,7 +52,7 @@ const BookList = ({ books, shelves, moveBook, isLoading }) => {
 };
 
 BookList.propTypes = {
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired,
   books: PropTypes.array.isRequired,
   shelves: PropTypes.array.isRequired,
   moveBook: PropTypes.func.isRequired

@@ -7,27 +7,32 @@ import './App.css';
 
 class BooksApp extends React.Component {
   state = {
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
+    books: {
+      currentlyReading: [],
+      wantToRead: [],
+      read: []
+    },
+    isLoading: false
   };
 
   componentDidMount() {
-    let tempState = this.state;
+    this.setState({isLoading: true})
+    
+    let tempState = this.state.books;
 
     //Fetch book assigned to a shelf and add them to the state
     BooksAPI.getAll()
       .then(books => {
-        Object.keys(this.state).map(
+        Object.keys(this.state.books).map(
           shelf =>
             (tempState[shelf] = books.filter(book => book.shelf === shelf))
         );
       })
-      .then(() => this.setState(tempState));
+      .then(() => this.setState({books: tempState, isLoading: false}));
   }
 
   moveBook = (book, newShelf) => {
-    let tempState = this.state;
+    let tempState = this.state.books;
     //If book is already on a shelf, remove it from this shelf
     if (book.shelf !== 'none') {
       tempState[book.shelf] = tempState[book.shelf].filter(
@@ -39,7 +44,7 @@ class BooksApp extends React.Component {
       book.shelf = newShelf;
       tempState[newShelf].push(book);
     }
-    this.setState(tempState);
+    this.setState({books: tempState});
 
     //Update the book shelf on the back end
     BooksAPI.update(book, newShelf);
@@ -52,13 +57,13 @@ class BooksApp extends React.Component {
           exact
           path="/"
           render={() => (
-            <RenderShelves books={this.state} moveBook={this.moveBook} />
+            <RenderShelves isLoading={this.state.isLoading} books={this.state.books} moveBook={this.moveBook} />
           )}
         />
         <Route
           path="/search"
           render={() => (
-            <SearchPage books={this.state} moveBook={this.moveBook} />
+            <SearchPage books={this.state.books} moveBook={this.moveBook} />
           )}
         />
       </div>
