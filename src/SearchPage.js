@@ -14,35 +14,36 @@ class SearchPage extends React.Component {
     searchResults: []
   };
 
-  //TODO: Refactor
   updateSearchResults = query => {
     let bookIds = {};
-    let bookShelves = Object.keys(this.props.books);
+    const bookShelves = Object.keys(this.props.books);
+    const bookId = book => book.industryIdentifiers[0].identifier;
 
+    //Populate bookIds
+    //Keys are the current shelves
+    //Values are the ids of books currently on that shelf
     bookShelves.map(
       shelf =>
         (bookIds[shelf] = this.props.books[shelf]
           .filter(book => book.shelf === shelf)
-          .map(book => book.industryIdentifiers[0].identifier))
+          .map(book => bookId(book)))
     );
 
+    //Update state with list of books returned from query
+    //Books returned reflect their currently assigned shelf
     search(query).then(results => {
-      //TODO: Look at using results.error to show in UI if no results found
       if (!results || results.error) {
         this.setState({ searchResults: [] });
       } else {
+        //Map a shelf value onto each book in results
         results.map(book => {
-          book.shelf = 'none';
-          for (let i = 0; i < bookShelves.length; i++) {
-            if (
-              bookIds[bookShelves[i]].includes(
-                book.industryIdentifiers[0].identifier
-              )
-            ) {
-              book.shelf = bookShelves[i];
-            }
-          }
-
+          book.shelf = 'none'; //Default value - overwritten if match found
+          //For every shelf...
+          bookShelves.map(
+            shelf =>
+              //...if this shelf contains book's Id, set book's shelf to shelf
+              bookIds[shelf].includes(bookId(book)) && (book.shelf = shelf)
+          );
           return book;
         });
 
